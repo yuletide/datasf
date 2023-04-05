@@ -37,4 +37,9 @@ sensor_df = session.table("SENSOR.TIMESERIES")
 sensor_pdf = sensor_df.to_pandas()
 normalized_pdf = pd.json_normalize(sensor_pdf["V"].apply(json.loads))
 normalized_readings_pdf = pd.json_normalize(normalized_pdf["data.data"].explode())
-normalized_readings_pdf
+session.write_pandas(
+    normalized_readings_pdf,
+    table_name="TIMESERIES_NORMAL",
+    database="TAKE_HOME_USER2",
+    schema="SENSOR",
+)
